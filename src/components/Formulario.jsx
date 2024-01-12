@@ -59,6 +59,7 @@ const Formulario = ({pacientes, setPacientes}) => {
         
     }
     
+    
 
     
   return (
@@ -77,7 +78,8 @@ const Formulario = ({pacientes, setPacientes}) => {
         </p>
 
         <form onSubmit={handleSubmit} className="bg-white shadow-md mt-2 rounded-md py-1 px-3 mb-10">
-            
+
+                     
             <div>
                 <label htmlFor="paciente" className="block ml-3 text-gray-700 uppercase font-bold my-3"> Nombre del Paciente</label>
 
@@ -154,7 +156,11 @@ const Formulario = ({pacientes, setPacientes}) => {
                 />
             </div>
 
-            { error && <Error> ¡ No rellenaste todos los campos !</Error>}
+            { error && 
+                <Error> 
+                    <h1> Hola </h1>
+                    <p>¡ No rellenaste todos los campos !</p>
+                </Error>}
 
             <input type="submit" className="text-white bg-purple-500 hover:bg-purple-700 border-2 rounded-md mt-3 mb-5 p-1 w-full font-black uppercase cursor-pointer transition-all" value="Agregar paciente">
 
