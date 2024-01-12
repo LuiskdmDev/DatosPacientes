@@ -10,6 +10,14 @@ const Formulario = ({pacientes, setPacientes}) => {
     const [email, setEmail] = useState('');
     const [sintomas, setSintomas] = useState('');
     const [control, setControl] = useState('');
+    
+    const generarId = () =>{
+        const random = Math.random().toString(36).substr(2);
+        const fecha = Date.now().toString(36);
+
+        return random + fecha;
+
+    }
 
     const [error, setError] = useState(false)
 
@@ -38,7 +46,8 @@ const Formulario = ({pacientes, setPacientes}) => {
             telefono,
             email,
             sintomas,
-            control
+            control,
+            id: generarId()
 
         }
 

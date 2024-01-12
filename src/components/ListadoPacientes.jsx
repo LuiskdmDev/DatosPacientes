@@ -13,9 +13,9 @@ const ListadoPacientes = ({pacientes}) => {
           <span className="text-purple-700 "> pacientes y citas</span>
         </p>
 
-        {pacientes.map ((paciente, index) => (       
+        {pacientes.map (paciente => (       
             <Paciente
-            key = {index}
+            key ={paciente.id}            
             paciente={paciente}
             />          
         ))}
