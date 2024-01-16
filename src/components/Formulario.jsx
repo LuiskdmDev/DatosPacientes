@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Error from './Error.jsx';
 
 
-const Formulario = ({pacientes, setPacientes}) => {
+const Formulario = ({pacientes, setPacientes, paciente, setPaciente}) => {
     /* ---------------------------------- useState's ---------------------------------------- */
     const [nombre, setNombre] = useState('');
     const [rut, setRut] = useState('');
@@ -11,6 +11,19 @@ const Formulario = ({pacientes, setPacientes}) => {
     const [sintomas, setSintomas] = useState('');
     const [control, setControl] = useState('');
     
+    useEffect(() => {
+        if(Object.keys(paciente).length > 0) { //comprueba si un objeto está vacío o no
+            setNombre(paciente.nombre)
+            setRut(paciente.rut)
+            setTelefono(paciente.telefono)
+            setEmail(paciente.email)
+            setSintomas(paciente.sintomas)
+            setControl(paciente.control)
+        } 
+    },[paciente])
+
+   
+
     const generarId = () =>{
         const random = Math.random().toString(36).substr(2);
         const fecha = Date.now().toString(36);
@@ -46,16 +59,25 @@ const Formulario = ({pacientes, setPacientes}) => {
             telefono,
             email,
             sintomas,
-            control,
-            id: generarId()
+            control,    
 
         }
 
-        console.log(objetoPaciente);
-        setPacientes([...pacientes, objetoPaciente]);
+        if(paciente.id) {
+            //editando el registro
+            objetoPaciente.id = paciente.id
 
-        //setPacientes(nombre)
+            const pacientesActualizado = pacientes.map(pacienteState => pacienteState.id === paciente.id ? objetoPaciente : pacienteState)
 
+            setPacientes(pacientesActualizado)
+            setPaciente({})
+        } else {
+            //nuevo registro
+            objetoPaciente.id = generarId();
+            setPacientes([...pacientes, objetoPaciente]);
+        }
+
+        
         //Reiniciar el formulario -------------------------------
 
         setNombre('');
@@ -63,14 +85,9 @@ const Formulario = ({pacientes, setPacientes}) => {
         setTelefono('');
         setEmail('');
         setSintomas('');
-        setControl('');
-
-        
+        setControl('');     
     }
-    
-    
 
-    
   return (
     <section className="md:w-1/2 lg:w-2/5 m-10">
         <h2 className="font-black text-2xl text-center">
@@ -86,9 +103,7 @@ const Formulario = ({pacientes, setPacientes}) => {
 
         </p>
 
-        <form onSubmit={handleSubmit} className="bg-white shadow-md mt-2 rounded-md py-1 px-3 mb-10">
-
-                     
+        <form onSubmit={handleSubmit} className="bg-white shadow-md mt-2 rounded-md py-1 px-3 mb-10">                     
             <div>
                 <label htmlFor="paciente" className="block ml-3 text-gray-700 uppercase font-bold my-3"> Nombre del Paciente</label>
 
@@ -170,14 +185,14 @@ const Formulario = ({pacientes, setPacientes}) => {
                     <h1> Hola </h1>
                     <p>¡ No rellenaste todos los campos !</p>
                 </Error>}
-
-            <input type="submit" className="text-white bg-purple-500 hover:bg-purple-700 border-2 rounded-md mt-3 mb-5 p-1 w-full font-black uppercase cursor-pointer transition-all" value="Agregar paciente">
-
-            </input>
             
+            <input 
+            type="submit" 
+            className="text-white bg-purple-500 hover:bg-purple-700 border-2 rounded-md mt-3 mb-5 p-1 w-full font-black uppercase cursor-pointer transition-all" 
+            value={paciente.id ? "Editar Paciente": "Agregar Paciente"}
+            >
+            </input>            
         </form>
-
-
     </section>  
   )
 }
